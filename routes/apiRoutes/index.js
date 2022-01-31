@@ -1,12 +1,15 @@
 const router = require("express").Router();
-const savedNotes = require("../../db/db.json");
+// const savedNotes = require("../../db/db.json");
 const fs = require("fs");
 const { nanoid } = require("nanoid");
 
+let savedNotes;
+
 router.get("/notes", (req, res) => {
-  let results = savedNotes;
+  //   let results = savedNotes;
+  savedNotes = JSON.parse(fs.readFileSync("db/db.json"));
   console.log("got new note");
-  res.json(results);
+  res.json(savedNotes);
 });
 
 router.get("/db", (req, res) => {
@@ -26,7 +29,7 @@ router.post("/notes", (req, res) => {
       err ? console.error(err) : console.log("note written")
     );
 
-    // res.json(newNote);
+    res.json(savedNotes);
   }
 });
 
